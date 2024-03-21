@@ -1,0 +1,73 @@
+﻿@page "/unidadesmedida/create"
+@inject BlazorApp1.Data.BlazorApp1Context DB
+@using BlazorApp1.Models
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h4>UnidadesMedida</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="UnidadesMedida" OnValidSubmit="AddUnidadesMedida" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descricao:</label> 
+                <InputText id="descricao" @bind-Value="UnidadesMedida.Descricao" class="form-control" /> 
+                <ValidationMessage For="() => UnidadesMedida.Descricao" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="casas_decimais" class="form-label">Casas_Decimais:</label> 
+                <InputNumber id="casas_decimais" @bind-Value="UnidadesMedida.Casas_Decimais" class="form-control" /> 
+                <ValidationMessage For="() => UnidadesMedida.Casas_Decimais" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="ativa" class="form-label">Ativa:</label> 
+                <InputText id="ativa" @bind-Value="UnidadesMedida.Ativa" class="form-control" /> 
+                <ValidationMessage For="() => UnidadesMedida.Ativa" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="cadastrado_usuario" class="form-label">Cadastrado_Usuario:</label> 
+                <InputNumber id="cadastrado_usuario" @bind-Value="UnidadesMedida.Cadastrado_Usuario" class="form-control" /> 
+                <ValidationMessage For="() => UnidadesMedida.Cadastrado_Usuario" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="cadastrado_data" class="form-label">Cadastrado_Data:</label> 
+                <InputDate id="cadastrado_data" @bind-Value="UnidadesMedida.Cadastrado_Data" class="form-control" /> 
+                <ValidationMessage For="() => UnidadesMedida.Cadastrado_Data" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="alterado_usuario" class="form-label">Alterado_Usuario:</label> 
+                <InputNumber id="alterado_usuario" @bind-Value="UnidadesMedida.Alterado_Usuario" class="form-control" /> 
+                <ValidationMessage For="() => UnidadesMedida.Alterado_Usuario" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="alterado_data" class="form-label">Alterado_Data:</label> 
+                <InputDate id="alterado_data" @bind-Value="UnidadesMedida.Alterado_Data" class="form-control" /> 
+                <ValidationMessage For="() => UnidadesMedida.Alterado_Data" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/unidadesmedida">Back to List</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public UnidadesMedida UnidadesMedida { get; set; } = new();
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddUnidadesMedida()
+    {
+        DB.UnidadesMedida.Add(UnidadesMedida);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/unidadesmedida");
+    }
+}

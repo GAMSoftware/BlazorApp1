@@ -1,0 +1,109 @@
+﻿@page "/produtos/delete"
+@inject BlazorApp1.Data.BlazorApp1Context DB
+@using BlazorApp1.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Delete</PageTitle>
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Produtos</h4>
+    <hr />
+    @if (produtos is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Codigo</dt>
+            <dd class="col-sm-10">@produtos.Codigo</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Descricao</dt>
+            <dd class="col-sm-10">@produtos.Descricao</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Un</dt>
+            <dd class="col-sm-10">@produtos.Un</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Id_Categoria</dt>
+            <dd class="col-sm-10">@produtos.Id_Categoria</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Preco_Custo</dt>
+            <dd class="col-sm-10">@produtos.Preco_Custo</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Preco_Venda</dt>
+            <dd class="col-sm-10">@produtos.Preco_Venda</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Estoque_Minimo</dt>
+            <dd class="col-sm-10">@produtos.Estoque_Minimo</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Estoque_Maximo</dt>
+            <dd class="col-sm-10">@produtos.Estoque_Maximo</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Estoque_Saldo_Inicial</dt>
+            <dd class="col-sm-10">@produtos.Estoque_Saldo_Inicial</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Estoque_Saldo_Inicial_Data</dt>
+            <dd class="col-sm-10">@produtos.Estoque_Saldo_Inicial_Data</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Ativo</dt>
+            <dd class="col-sm-10">@produtos.Ativo</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Cadastrado_Usuario</dt>
+            <dd class="col-sm-10">@produtos.Cadastrado_Usuario</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Cadastrado_Data</dt>
+            <dd class="col-sm-10">@produtos.Cadastrado_Data</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Alterado_Usuario</dt>
+            <dd class="col-sm-10">@produtos.Alterado_Usuario</dd>
+        </dl>
+        <dl class="row">
+            <dt class="col-sm-2">Alterado_Data</dt>
+            <dd class="col-sm-10">@produtos.Alterado_Data</dd>
+        </dl>
+        <EditForm method="post" Model="produtos" OnValidSubmit="DeleteProdutos" FormName="delete" Enhance>
+            <button type="submit" class="btn btn-danger" disabled="@(produtos is null)">Delete</button> |
+            <a href="/produtos">Back to List</a>
+        </EditForm>
+    }
+</div>
+
+@code {
+    Produtos? produtos;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        produtos = await DB.Produtos.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (produtos is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    public async Task DeleteProdutos()
+    {
+        DB.Produtos.Remove(produtos!);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/produtos");
+    }
+}

@@ -1,0 +1,55 @@
+﻿@page "/produtoscategoria/details"
+@inject BlazorApp1.Data.BlazorApp1Context DB
+@using BlazorApp1.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h4>ProdutosCategoria</h4>
+    <hr />
+    @if (produtoscategoria is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Descricao</dt>
+            <dd class="col-sm-10">@produtoscategoria.Descricao</dd>
+            <dt class="col-sm-2">Ativa</dt>
+            <dd class="col-sm-10">@produtoscategoria.Ativa</dd>
+            <dt class="col-sm-2">Cadastrado_Usuario</dt>
+            <dd class="col-sm-10">@produtoscategoria.Cadastrado_Usuario</dd>
+            <dt class="col-sm-2">Cadastrado_Data</dt>
+            <dd class="col-sm-10">@produtoscategoria.Cadastrado_Data</dd>
+            <dt class="col-sm-2">Alterado_Usuario</dt>
+            <dd class="col-sm-10">@produtoscategoria.Alterado_Usuario</dd>
+            <dt class="col-sm-2">Alterado_Data</dt>
+            <dd class="col-sm-10">@produtoscategoria.Alterado_Data</dd>
+        </dl>
+        <div>
+            <a href="@($"/produtoscategoria/edit?id={produtoscategoria.Id}")">Edit</a> |
+            <a href="@($"/produtoscategoria")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    ProdutosCategoria? produtoscategoria;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        produtoscategoria = await DB.ProdutosCategoria.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (produtoscategoria is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

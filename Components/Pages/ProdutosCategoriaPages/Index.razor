@@ -1,0 +1,27 @@
+﻿@page "/produtoscategoria"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject BlazorApp1.Data.BlazorApp1Context DB
+@using BlazorApp1.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="produtoscategoria/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.ProdutosCategoria">
+    <PropertyColumn Property="produtoscategoria => produtoscategoria.Descricao" />
+    <PropertyColumn Property="produtoscategoria => produtoscategoria.Ativa" />
+    <PropertyColumn Property="produtoscategoria => produtoscategoria.Cadastrado_Usuario" />
+    <PropertyColumn Property="produtoscategoria => produtoscategoria.Cadastrado_Data" />
+    <PropertyColumn Property="produtoscategoria => produtoscategoria.Alterado_Usuario" />
+    <PropertyColumn Property="produtoscategoria => produtoscategoria.Alterado_Data" />
+
+    <TemplateColumn Context="produtoscategoria">
+        <a href="@($"produtoscategoria/edit?id={produtoscategoria.Id}")">Edit</a> |
+        <a href="@($"produtoscategoria/details?id={produtoscategoria.Id}")">Details</a> |
+        <a href="@($"produtoscategoria/delete?id={produtoscategoria.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>

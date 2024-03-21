@@ -1,0 +1,53 @@
+﻿@page "/unidadesmedida"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject BlazorApp1.Data.BlazorApp1Context DB
+@using BlazorApp1.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Unidades de medida</h1>
+
+<p>
+    <a href="unidadesmedida/create">Create New</a>
+</p>
+
+@* <QuickGrid Class="table" Items="DB.UnidadesMedida">
+    <PropertyColumn Property="unidadesmedida => unidadesmedida.Descricao" />
+    <PropertyColumn Property="unidadesmedida => unidadesmedida.Casas_Decimais" />
+    <PropertyColumn Property="unidadesmedida => unidadesmedida.Ativa" />
+    <PropertyColumn Property="unidadesmedida => unidadesmedida.Cadastrado_Usuario" />
+    <PropertyColumn Property="unidadesmedida => unidadesmedida.Cadastrado_Data" />
+    <PropertyColumn Property="unidadesmedida => unidadesmedida.Alterado_Usuario" />
+    <PropertyColumn Property="unidadesmedida => unidadesmedida.Alterado_Data" />
+
+    <TemplateColumn Context="unidadesmedida">
+        <a href="@($"unidadesmedida/edit?sigla={unidadesmedida.Sigla}")">Edit</a> |
+        <a href="@($"unidadesmedida/details?sigla={unidadesmedida.Sigla}")">Details</a> |
+        <a href="@($"unidadesmedida/delete?sigla={unidadesmedida.Sigla}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid> *@
+
+    <div class="card-container">
+
+    <div class="row">
+       @foreach (var unidadesmedida in DB.UnidadesMedida)
+       {
+         <div class="col-md-4">
+
+             <div class = "card">
+                 <div class="card-body">
+                  <p>@unidadesmedida.Descricao</p>
+
+                   <div class="card-actions">
+
+                     <a href="@($"unidadesmedida/edit?sigla={unidadesmedida.Sigla}")">Edit</a> |
+                     <a href="@($"unidadesmedida/details?sigla={unidadesmedida.Sigla}")">Details</a> |
+                     <a href="@($"unidadesmedida/delete?sigla={unidadesmedida.Sigla}")">Delete</a>
+                    </div>    
+                 </div>
+            </div>
+                          
+         </div>
+       }
+    </div>
+</div>

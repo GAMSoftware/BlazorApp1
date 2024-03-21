@@ -1,0 +1,36 @@
+﻿@page "/produtos"
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject BlazorApp1.Data.BlazorApp1Context DB
+@using BlazorApp1.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Index</h1>
+
+<p>
+    <a href="produtos/create">Create New</a>
+</p>
+
+<QuickGrid Class="table" Items="DB.Produtos">
+    <PropertyColumn Property="produtos => produtos.Codigo" />
+    <PropertyColumn Property="produtos => produtos.Descricao" />
+    <PropertyColumn Property="produtos => produtos.Un" />
+    <PropertyColumn Property="produtos => produtos.Id_Categoria" />
+    <PropertyColumn Property="produtos => produtos.Preco_Custo" />
+    <PropertyColumn Property="produtos => produtos.Preco_Venda" />
+    <PropertyColumn Property="produtos => produtos.Estoque_Minimo" />
+    <PropertyColumn Property="produtos => produtos.Estoque_Maximo" />
+    <PropertyColumn Property="produtos => produtos.Estoque_Saldo_Inicial" />
+    <PropertyColumn Property="produtos => produtos.Estoque_Saldo_Inicial_Data" />
+    <PropertyColumn Property="produtos => produtos.Ativo" />
+    <PropertyColumn Property="produtos => produtos.Cadastrado_Usuario" />
+    <PropertyColumn Property="produtos => produtos.Cadastrado_Data" />
+    <PropertyColumn Property="produtos => produtos.Alterado_Usuario" />
+    <PropertyColumn Property="produtos => produtos.Alterado_Data" />
+
+    <TemplateColumn Context="produtos">
+        <a href="@($"produtos/edit?id={produtos.Id}")">Edit</a> |
+        <a href="@($"produtos/details?id={produtos.Id}")">Details</a> |
+        <a href="@($"produtos/delete?id={produtos.Id}")">Delete</a>
+    </TemplateColumn>
+</QuickGrid>

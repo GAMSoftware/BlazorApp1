@@ -1,0 +1,73 @@
+﻿@page "/produtos/details"
+@inject BlazorApp1.Data.BlazorApp1Context DB
+@using BlazorApp1.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Details</PageTitle>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Produtos</h4>
+    <hr />
+    @if (produtos is null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else {
+        <dl class="row">
+            <dt class="col-sm-2">Codigo</dt>
+            <dd class="col-sm-10">@produtos.Codigo</dd>
+            <dt class="col-sm-2">Descricao</dt>
+            <dd class="col-sm-10">@produtos.Descricao</dd>
+            <dt class="col-sm-2">Un</dt>
+            <dd class="col-sm-10">@produtos.Un</dd>
+            <dt class="col-sm-2">Id_Categoria</dt>
+            <dd class="col-sm-10">@produtos.Id_Categoria</dd>
+            <dt class="col-sm-2">Preco_Custo</dt>
+            <dd class="col-sm-10">@produtos.Preco_Custo</dd>
+            <dt class="col-sm-2">Preco_Venda</dt>
+            <dd class="col-sm-10">@produtos.Preco_Venda</dd>
+            <dt class="col-sm-2">Estoque_Minimo</dt>
+            <dd class="col-sm-10">@produtos.Estoque_Minimo</dd>
+            <dt class="col-sm-2">Estoque_Maximo</dt>
+            <dd class="col-sm-10">@produtos.Estoque_Maximo</dd>
+            <dt class="col-sm-2">Estoque_Saldo_Inicial</dt>
+            <dd class="col-sm-10">@produtos.Estoque_Saldo_Inicial</dd>
+            <dt class="col-sm-2">Estoque_Saldo_Inicial_Data</dt>
+            <dd class="col-sm-10">@produtos.Estoque_Saldo_Inicial_Data</dd>
+            <dt class="col-sm-2">Ativo</dt>
+            <dd class="col-sm-10">@produtos.Ativo</dd>
+            <dt class="col-sm-2">Cadastrado_Usuario</dt>
+            <dd class="col-sm-10">@produtos.Cadastrado_Usuario</dd>
+            <dt class="col-sm-2">Cadastrado_Data</dt>
+            <dd class="col-sm-10">@produtos.Cadastrado_Data</dd>
+            <dt class="col-sm-2">Alterado_Usuario</dt>
+            <dd class="col-sm-10">@produtos.Alterado_Usuario</dd>
+            <dt class="col-sm-2">Alterado_Data</dt>
+            <dd class="col-sm-10">@produtos.Alterado_Data</dd>
+        </dl>
+        <div>
+            <a href="@($"/produtos/edit?id={produtos.Id}")">Edit</a> |
+            <a href="@($"/produtos")">Back to List</a>
+        </div>
+    }
+</div>
+
+@code {
+    Produtos? produtos;
+
+    [SupplyParameterFromQuery]
+    public int Id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        produtos = await DB.Produtos.FirstOrDefaultAsync(m => m.Id == Id);
+
+        if (produtos is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+}

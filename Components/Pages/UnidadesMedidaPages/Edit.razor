@@ -1,0 +1,116 @@
+﻿@page "/UnidadesMedida/edit"
+@inject BlazorApp1.Data.BlazorApp1Context DB
+@using BlazorApp1.Models
+@inject NavigationManager NavigationManager
+@using Microsoft.EntityFrameworkCore
+
+<PageTitle>Edit</PageTitle>
+
+<h1>Edit</h1>
+
+<h4>UnidadesMedida</h4>
+<hr />
+@if (UnidadesMedida is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row">
+        <div class="col-md-4">
+            <EditForm method="post" Model="UnidadesMedida" OnValidSubmit="UpdateUnidadesMedida" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+                <input type="hidden" name="UnidadesMedida.Sigla" value="@UnidadesMedida.Sigla" />
+                <div class="mb-3">
+                    <label for="descricao" class="form-label">Descricao:</label>
+                    <InputText id="descricao" @bind-Value="UnidadesMedida.Descricao" class="form-control" />
+                    <ValidationMessage For="() => UnidadesMedida.Descricao" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="casas_decimais" class="form-label">Casas_Decimais:</label>
+                    <InputNumber id="casas_decimais" @bind-Value="UnidadesMedida.Casas_Decimais" class="form-control" />
+                    <ValidationMessage For="() => UnidadesMedida.Casas_Decimais" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="ativa" class="form-label">Ativa:</label>
+                    <InputText id="ativa" @bind-Value="UnidadesMedida.Ativa" class="form-control" />
+                    <ValidationMessage For="() => UnidadesMedida.Ativa" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="cadastrado_usuario" class="form-label">Cadastrado_Usuario:</label>
+                    <InputNumber id="cadastrado_usuario" @bind-Value="UnidadesMedida.Cadastrado_Usuario" class="form-control" />
+                    <ValidationMessage For="() => UnidadesMedida.Cadastrado_Usuario" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="cadastrado_data" class="form-label">Cadastrado_Data:</label>
+                    <InputDate id="cadastrado_data" @bind-Value="UnidadesMedida.Cadastrado_Data" class="form-control" />
+                    <ValidationMessage For="() => UnidadesMedida.Cadastrado_Data" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="alterado_usuario" class="form-label">Alterado_Usuario:</label>
+                    <InputNumber id="alterado_usuario" @bind-Value="UnidadesMedida.Alterado_Usuario" class="form-control" />
+                    <ValidationMessage For="() => UnidadesMedida.Alterado_Usuario" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="alterado_data" class="form-label">Alterado_Data:</label>
+                    <InputDate id="alterado_data" @bind-Value="UnidadesMedida.Alterado_Data" class="form-control" />
+                    <ValidationMessage For="() => UnidadesMedida.Alterado_Data" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="/unidadesmedida">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    public string Sigla { get; set; }
+
+    [SupplyParameterFromForm]
+    public UnidadesMedida? UnidadesMedida { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        UnidadesMedida ??= await DB.UnidadesMedida.FirstOrDefaultAsync(m => m.Sigla == Sigla);
+
+        if (UnidadesMedida is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more details, see https://aka.ms/RazorPagesCRUD.
+    public async Task UpdateUnidadesMedida()
+    {
+        DB.Attach(UnidadesMedida!).State = EntityState.Modified;
+
+        try
+        {
+            await DB.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!UnidadesMedidaExists(UnidadesMedida!.Sigla))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/unidadesmedida");
+    }
+
+    bool UnidadesMedidaExists(string sigla)
+    {
+        return DB.UnidadesMedida.Any(e => e.Sigla == sigla);
+    }
+}

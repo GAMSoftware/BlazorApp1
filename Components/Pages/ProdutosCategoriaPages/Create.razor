@@ -1,0 +1,68 @@
+﻿@page "/produtoscategoria/create"
+@inject BlazorApp1.Data.BlazorApp1Context DB
+@using BlazorApp1.Models
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1>Create</h1>
+
+<h4>ProdutosCategoria</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <EditForm method="post" Model="ProdutosCategoria" OnValidSubmit="AddProdutosCategoria" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" />
+            <div class="mb-3">
+                <label for="descricao" class="form-label">Descricao:</label> 
+                <InputText id="descricao" @bind-Value="ProdutosCategoria.Descricao" class="form-control" /> 
+                <ValidationMessage For="() => ProdutosCategoria.Descricao" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="ativa" class="form-label">Ativa:</label> 
+                <InputText id="ativa" @bind-Value="ProdutosCategoria.Ativa" class="form-control" /> 
+                <ValidationMessage For="() => ProdutosCategoria.Ativa" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="cadastrado_usuario" class="form-label">Cadastrado_Usuario:</label> 
+                <InputNumber id="cadastrado_usuario" @bind-Value="ProdutosCategoria.Cadastrado_Usuario" class="form-control" /> 
+                <ValidationMessage For="() => ProdutosCategoria.Cadastrado_Usuario" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="cadastrado_data" class="form-label">Cadastrado_Data:</label> 
+                <InputDate id="cadastrado_data" @bind-Value="ProdutosCategoria.Cadastrado_Data" class="form-control" /> 
+                <ValidationMessage For="() => ProdutosCategoria.Cadastrado_Data" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="alterado_usuario" class="form-label">Alterado_Usuario:</label> 
+                <InputNumber id="alterado_usuario" @bind-Value="ProdutosCategoria.Alterado_Usuario" class="form-control" /> 
+                <ValidationMessage For="() => ProdutosCategoria.Alterado_Usuario" class="text-danger" /> 
+            </div>        
+            <div class="mb-3">
+                <label for="alterado_data" class="form-label">Alterado_Data:</label> 
+                <InputDate id="alterado_data" @bind-Value="ProdutosCategoria.Alterado_Data" class="form-control" /> 
+                <ValidationMessage For="() => ProdutosCategoria.Alterado_Data" class="text-danger" /> 
+            </div>        
+            <button type="submit" class="btn btn-primary">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+<div>
+    <a href="/produtoscategoria">Back to List</a>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public ProdutosCategoria ProdutosCategoria { get; set; } = new();
+
+    // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+    public async Task AddProdutosCategoria()
+    {
+        DB.ProdutosCategoria.Add(ProdutosCategoria);
+        await DB.SaveChangesAsync();
+        NavigationManager.NavigateTo("/produtoscategoria");
+    }
+}
